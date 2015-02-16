@@ -30,7 +30,7 @@ def main():
     parser.add_argument('-t', "--test-dir", metavar='path', help='Path to test directory (default: tests)',
                         action='store')
     parser.add_argument('-i', '--input', metavar='ext', help='File extension for input file (default: .in)')
-    parser.add_argument('-o', '--output', metavar='ext', help='File extension for output file (default: .expect')
+    parser.add_argument('-o', '--output', metavar='ext', help='File extension for output file (default: .expect)')
     args = parser.parse_args()
 
     # store parsed arguments

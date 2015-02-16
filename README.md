@@ -3,7 +3,7 @@ Automatically perform I/O tests on a program. By default, it looks for .in files
 
 ## Installation
 ```
-pip install bunny.zip
+pip install cs136-bunny.zip
 ```
 
 ## Usage

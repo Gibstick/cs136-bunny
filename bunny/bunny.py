@@ -36,10 +36,6 @@ def get_test_files(test_dir, in_ext, out_ext):
     '''
     return tuple(((glob(test_dir + '/*' + in_ext)), (glob(test_dir + '/*' + out_ext))))
 
-def print_result(test_result):
-    if not test_result.return_code == 0:
-        print('Test failed!')
-
 def run_all_tests(program, test_files):
     in_files, out_files = test_files
 

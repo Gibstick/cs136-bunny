@@ -6,6 +6,7 @@ from collections import namedtuple
 
 Test_result = namedtuple('Test_result', 'return_code, test_file, expected_data, actual_data, passed')
 
+
 def run_test(program, in_file, out_file):
     '''
     Run one test, using input from in_file and comparing to output specified in out_file.
@@ -25,6 +26,7 @@ def run_test(program, in_file, out_file):
     result_data = test.std_out
     return Test_result(test.status_code, in_file, output_data, result_data, result_data == output_data)
 
+
 def get_test_files(test_dir, in_ext, out_ext):
     '''
     Get all test files in test_dir.
@@ -36,7 +38,15 @@ def get_test_files(test_dir, in_ext, out_ext):
     '''
     return tuple(((glob(test_dir + '/*' + in_ext)), (glob(test_dir + '/*' + out_ext))))
 
+
 def run_all_tests(program, test_files):
+    '''
+    Run all tests
+
+    :param program: Program to test (str)
+    :param test_files: A tuple of in_files and out_files
+    :return: Test_result tuple
+    '''
     in_files, out_files = test_files
 
     for in_file, out_file in zip(in_files, out_files):
@@ -47,8 +57,6 @@ def run_all_tests(program, test_files):
             print('passed {}'.format(result.test_file))
         else:
             print('failed: expected\n{}\nbut received\n{}'.format(result.expected_data, result.actual_data))
-
-
 
 
 def main():

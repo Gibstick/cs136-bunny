@@ -3,7 +3,7 @@ from setuptools import setup
 setup(name='cs136-bunny',
       version ='1.0',
       description='An automated I/O testing tool for CS 136',
-      url='http://github.com/gibstick/bunny',
+      url='https://github.com/Gibstick/cs136-bunny',
       author='Charlie (Gibstick) Wang',
       author_email='charlie.wang@uwaterloo.ca',
       license='MIT',

@@ -3,6 +3,7 @@ __author__ = 'Charlie'
 import envoy
 from glob import glob
 from collections import namedtuple
+from difflib import context_diff, Differ
 import itertools
 
 
@@ -58,7 +59,7 @@ def run_all_tests(program, test_files):
     """
     in_files, out_files = test_files
 
-    for in_file, out_file in itertools.zip(in_files, out_files):
+    for in_file, out_file in itertools.izip(in_files, out_files):
         result = run_test(program, in_file, out_file)
         if not result.return_code == 0:
             print('error: Process returned {} for {}'.format(result.return_code,
@@ -66,8 +67,13 @@ def run_all_tests(program, test_files):
         elif result.passed:
             print('passed {}'.format(result.test_file))
         else:
-            print('failed: expected\n{}\nbut received\n{}'.format(
-                result.expected_data, result.actual_data))
+            print('failed: {}'.format(result.test_file))
+            print('----')
+            expected_lines = result.expected_data.splitlines(True)
+            actual_lines = result.actual_data.splitlines(True)
+            d = Differ()
+            for line in (d.compare(expected_lines, actual_lines)):
+                print(line)
 
 
 def main():

@@ -3,6 +3,8 @@ __author__ = 'Charlie'
 import envoy
 from glob import glob
 from collections import namedtuple
+import itertools
+
 
 Test_result = namedtuple('Test_result',
                          'return_code, '
@@ -13,14 +15,14 @@ Test_result = namedtuple('Test_result',
 
 
 def run_test(program, in_file, out_file):
-    '''
+    """
     Run one test, using input from in_file and comparing to output specified in out_file.
 
     :param program: Program to test (str)
     :param in_file: Input file to pipe to std.in (str)
     :param out_file: File containing correct output (str)
     :return: Test_result tuple
-    '''
+    """
     with open(in_file, 'r') as f:
         input_data = f.read()
 
@@ -34,29 +36,29 @@ def run_test(program, in_file, out_file):
 
 
 def get_test_files(test_dir, in_ext, out_ext):
-    '''
+    """
     Get all test files in test_dir.
 
     :param test_dir: Path (str)
     :param in_ext: File extension for input files (str)
     :param out_ext: File extension for output files (str)
     :return: A tuple of two tuples, input files and output files
-    '''
+    """
     return tuple(
         ((glob(test_dir + '/*' + in_ext)), (glob(test_dir + '/*' + out_ext))))
 
 
 def run_all_tests(program, test_files):
-    '''
+    """
     Run all tests
 
     :param program: Program to test (str)
     :param test_files: A tuple of in_files and out_files
     :return: Test_result tuple
-    '''
+    """
     in_files, out_files = test_files
 
-    for in_file, out_file in zip(in_files, out_files):
+    for in_file, out_file in itertools.zip(in_files, out_files):
         result = run_test(program, in_file, out_file)
         if not result.return_code == 0:
             print('error: Process returned {} for {}'.format(result.return_code,

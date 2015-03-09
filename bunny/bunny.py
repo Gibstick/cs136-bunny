@@ -4,7 +4,12 @@ import envoy
 from glob import glob
 from collections import namedtuple
 
-Test_result = namedtuple('Test_result', 'return_code, test_file, expected_data, actual_data, passed')
+Test_result = namedtuple('Test_result',
+                         'return_code, '
+                         'test_file, '
+                         'expected_data, '
+                         'actual_data, '
+                         'passed')
 
 
 def run_test(program, in_file, out_file):
@@ -24,7 +29,8 @@ def run_test(program, in_file, out_file):
 
     test = envoy.run(program, data=input_data, timeout=30)
     result_data = test.std_out
-    return Test_result(test.status_code, in_file, output_data, result_data, result_data == output_data)
+    return Test_result(test.status_code, in_file, output_data, result_data,
+                       result_data == output_data)
 
 
 def get_test_files(test_dir, in_ext, out_ext):
@@ -36,7 +42,8 @@ def get_test_files(test_dir, in_ext, out_ext):
     :param out_ext: File extension for output files (str)
     :return: A tuple of two tuples, input files and output files
     '''
-    return tuple(((glob(test_dir + '/*' + in_ext)), (glob(test_dir + '/*' + out_ext))))
+    return tuple(
+        ((glob(test_dir + '/*' + in_ext)), (glob(test_dir + '/*' + out_ext))))
 
 
 def run_all_tests(program, test_files):
@@ -52,11 +59,13 @@ def run_all_tests(program, test_files):
     for in_file, out_file in zip(in_files, out_files):
         result = run_test(program, in_file, out_file)
         if not result.return_code == 0:
-            print('error: Process returned {} for {}'.format(result.return_code, result.test_file))
+            print('error: Process returned {} for {}'.format(result.return_code,
+                                                             result.test_file))
         elif result.passed:
             print('passed {}'.format(result.test_file))
         else:
-            print('failed: expected\n{}\nbut received\n{}'.format(result.expected_data, result.actual_data))
+            print('failed: expected\n{}\nbut received\n{}'.format(
+                result.expected_data, result.actual_data))
 
 
 def main():
@@ -65,10 +74,13 @@ def main():
     # setup parser and parse
     parser = argparse.ArgumentParser()
     parser.add_argument('program', help='binary to test')
-    parser.add_argument('-t', "--test-dir", metavar='path', help='Path to test directory (default: tests)',
+    parser.add_argument('-t', "--test-dir", metavar='path',
+                        help='Path to test directory (default: tests)',
                         action='store')
-    parser.add_argument('-i', '--input', metavar='ext', help='File extension for input file (default: .in)')
-    parser.add_argument('-o', '--output', metavar='ext', help='File extension for output file (default: .expect)')
+    parser.add_argument('-i', '--input', metavar='ext',
+                        help='File extension for input file (default: .in)')
+    parser.add_argument('-o', '--output', metavar='ext',
+                        help='File extension for output file (default: .expect)')
     args = parser.parse_args()
 
     # store parsed arguments
